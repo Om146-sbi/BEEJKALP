@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI Based Farmer Query Support & Advisory (Multilingual)</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <button class="nav-btn active" data-target="chatbot-section" title="Chatbot 💬">💬 Chatbot</button>
+  <button class="nav-btn" data-target="crop-section" title="Crop Advisory 🌱">🌱 Crop Advisory</button>
+  <button class="nav-btn" data-target="fertilizer-section" title="Fertilizer Advisory 🧪">🧪 Fertilizer Advisory</button>
+  <button class="nav-btn" data-target="disease-section" title="Disease Detection 🦠">🦠 Disease Detection</button>
+  <button class="nav-btn" data-target="market-section" title="Market Updates 📈">📈 Market Updates</button>
+  <button class="nav-btn" data-target="weather-section" title="Weather Forecast ☀️">☀️ Weather Forecast</button>
+</nav>
+
+<main>
+  <header>
+    <h1>BEEJKALP</h1>
+    <p>Powered By Krishi Inoveter</p>
+  </header>
+
+  <section id="chatbot-section" class="section active">
+    <h2 class="section-title">🤖 AI Chatbot (Multilingual Support)</h2>
+    <label for="language-select">Select Language:</label><br />
+    <select id="language-select" aria-label="Select chatbot language">
+      <option value="en" selected>English</option>
+      <option value="hi">Hindi</option>
+      <option value="ml">Malayalam</option>
+    </select>
+    <div id="chat-messages" aria-live="polite" role="log" aria-label="Chat messages"></div>
+    <form id="chat-form" autocomplete="off" aria-label="Chat input form">
+      <input type="text" id="chat-input" placeholder="Ask a question (text or voice)" aria-label="Chat input" required />
+      <button type="submit">Send</button>
+      <button type="button" id="voice-btn" aria-label="Voice input toggle" title="Voice Input">🎤</button>
+    </form>
+  </section>
+
+  <section id="crop-section" class="section" tabindex="-1">
+    <h2 class="section-title">🌾 Crop Selection Advisory</h2>
+    <form id="crop-form" aria-label="Crop advisory form">
+      <label for="soil-type">Soil Type:</label>
+      <select id="soil-type" required>
+        <option value="" disabled selected>Select soil type</option>
+        <option value="clay">Clay</option>
+        <option value="sandy">Sandy</option>
+        <option value="loamy">Loamy</option>
+        <option value="peaty">Peaty</option>
+        <option value="silty">Silty</option>
+      </select>
+
+      <label for="weather">Weather Condition:</label>
+      <select id="weather" required>
+        <option value="" disabled selected>Select weather</option>
+        <option value="rainy">Rainy</option>
+        <option value="dry">Dry</option>
+        <option value="moderate">Moderate</option>
+        <option value="humid">Humid</option>
+      </select>
+
+      <label for="season">Season:</label>
+      <select id="season" required>
+        <option value="" disabled selected>Select season</option>
+        <option value="kharif">Kharif (Monsoon)</option>
+        <option value="rabi">Rabi (Winter)</option>
+        <option value="zaid">Zaid (Summer)</option>
+      </select>
+
+      <button type="submit" class="btn-primary">Get Recommendation</button>
+    </form>
+    <div id="crop-result" class="result"></div>
+  </section>
+
+  <section id="fertilizer-section" class="section" tabindex="-1">
+    <h2 class="section-title">🧪 Fertilizer Advisory</h2>
+    <form id="fertilizer-form" aria-label="Fertilizer advisory form">
+      <label for="fert-soil-type">Soil Type:</label>
+      <select id="fert-soil-type" required>
+        <option value="" disabled selected>Select soil type</option>
+        <option value="clay">Clay</option>
+        <option value="sandy">Sandy</option>
+        <option value="loamy">Loamy</option>
+        <option value="peaty">Peaty</option>
+        <option value="silty">Silty</option>
+      </select>
+
+      <label for="fert-crop-type">Crop Type:</label>
+      <input type="text" id="fert-crop-type" placeholder="e.g., Wheat, Rice, Maize" required aria-label="Crop type for fertilizer" />
+
+      <label for="fert-stage">Crop Growth Stage:</label> <!-- New input -->
+      <select id="fert-stage" required>
+        <option value="" disabled selected>Select growth stage</option>
+        <option value="planting">Planting</option>
+        <option value="vegetative">Vegetative Growth</option>
+        <option value="flowering">Flowering</option>
+        <option value="fruiting">Fruiting/Grain Filling</option>
+      </select>
+
+      <button type="submit" class="btn-primary">Get Fertilizer Recommendation</button>
+    </form>
+    <div id="fertilizer-result" class="result"></div>
+  </section>
+
+  <section id="disease-section" class="section" tabindex="-1">
+    <h2 class="section-title">🔍 Disease Detection</h2>
+    <p>Upload a photo of your crop leaf for disease detection:</p>
+    <input type="file" id="image-upload" accept="image/*" aria-label="Upload crop leaf image" />
+    <button id="detect-btn" class="btn-primary" style="margin-top: 10px;">Detect Disease</button>
+    <div id="disease-loading" class="spinner" style="display:none;"></div>
+    <div id="disease-result" class="result"></div>
+  </section>
+
+  <section id="market-section" class="section" tabindex="-1">
+    <h2 class="section-title">💰 Market Values</h2>
+    <input type="text" id="market-search" placeholder="Search crop..." aria-label="Search market data" />
+    <ul id="market-data" class="market-list" aria-live="polite"></ul>
+  </section>
+
+  <section id="weather-section" class="section" tabindex="-1">
+    <h2 class="section-title">☁️ Weather Forecast</h2>
+    <label for="weather-location">Enter Location:</label>
+    <input type="text" id="weather-location" placeholder="e.g., Delhi, Mumbai" aria-label="Enter city for weather" />
+    <button id="get-weather-btn" class="btn-primary" style="margin-top: 10px;">Get Weather</button>
+    <div id="weather-data" aria-live="polite">
+      <p>Enter a location to get the forecast.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Slogans:</p>
+  <p>Without farmers, no country can progress.</p>
+  <p>The pillar of the society.</p>
+  <p>The crop magicians.</p>
+  <p>The job most can't handle.</p>
+  <p>Agriculture? you can't live without it.</p>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
